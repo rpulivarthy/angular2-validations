@@ -19,7 +19,7 @@ export class AddressesComponent  implements OnInit {
 
     ngOnInit() {
         // Get the addresses
-        this.addresses = [new Address("Raama","Pulivarthy"), new Address("Krisha", "Pulivarthy")];
+        this.addresses = [new Address("Raama","Pulivarthy",2,3), new Address("Krisha", "Pulivarthy",4,5)];
         console.log(this.addresses);
         this.buildForm();
     }
@@ -27,7 +27,7 @@ export class AddressesComponent  implements OnInit {
     
     addAddress() {
         const control = <FormArray>this.addressesForm.controls['addressFGA'];
-        control.push(this.buildFormGroup(new Address('','')));
+        control.push(this.buildFormGroup(new Address('','',1,2)));
     }
 
 
@@ -55,7 +55,31 @@ export class AddressesComponent  implements OnInit {
     buildFormGroup = (address:Address) : FormGroup => {
         return this.fb.group({
              'firstName':[address.firstName, Validators.required],
-             'lastName':[address.lastName, Validators.required]
+             'lastName':[address.lastName, Validators.required],
+             'startEnd': this.buildStartEndMonthGroup(address)
             });
-    } 
+    }
+
+    buildStartEndMonthGroup = (address:Address) : FormGroup =>{
+       return this.fb.group({
+                 'startMonth':[address.startMonth, Validators.required],
+                 'endMonth':[address.endMonth, Validators.required]
+             }, {
+                 validator: this.specificValueInRule.bind(this)
+             });
+    }
+
+    specificValueInRule=(startEndGrp:FormGroup):any=>{
+        const startMonth = startEndGrp.value.startMonth;
+        const endMonth = startEndGrp.value.endMonth;
+        if (startMonth && endMonth && startMonth > endMonth ) {
+              return {
+                monthRule: true
+            }
+        }
+        console.log(startMonth);
+        return {
+            monthRule: false
+        }
+    }
 }

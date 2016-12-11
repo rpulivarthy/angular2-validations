@@ -15,6 +15,19 @@
        <div *ngIf="formErrors.lastName" class="alert alert-danger">
           {{ formErrors.lastName }}
         </div>
-     
+      <div [formGroup]="startEnd">
+        <div>
+          <input type="number" formControlName="startMonth" required>
+        </div>
+         <div *ngIf="formErrors.startMonth" class="alert alert-danger">
+          {{ formErrors.startMonth }}
+        </div>
+        <div>
+          <input type="number" formControlName="endMonth" required>
+        </div>
+         <div *ngIf="formErrors.endMonth" class="alert alert-danger">
+          {{ formErrors.endMonth }}
+        </div>
+      </div>
     </form>
 </div>
