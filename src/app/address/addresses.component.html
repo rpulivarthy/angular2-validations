@@ -1,0 +1,19 @@
+<div class="jumbotron">
+    <form [formGroup]="addressesForm" (ngSubmit)="saveForm(addressesForm.value)">
+        <!--<div *ngFor="let ad of addresses">
+            {{ad.firstName}}
+        </div>-->
+        <div formArrayName="addressFGA">
+            <div *ngFor="let af of addressesForm.controls.addressFGA.controls">
+                 <ne-address  [injectedFG]="af" >
+                </ne-address>
+            </div>
+        </div>
+         <div class="form-group">
+            <button (click)="addAddress()" class="btn btn-default">Add</button>
+        </div>
+        <div class="form-group">
+            <button type="submit" [disabled]="!addressesForm.valid" class="btn btn-default">Submit</button>
+        </div>
+    </form>
+</div>
